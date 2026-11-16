@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Математикалық маятник — ҚОЗҒАЛЫС</title>
+<meta name="description" content="Маятниктің тербеліс периодының жіп ұзындығына тәуелділігін зерттеу және еркін түсу үдеуін g анықтау.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23E8FF47'/%3E%3Cpath d='M16 2v18' stroke='%230A0A0A' stroke-width='3'/%3E%3Ccircle cx='16' cy='22' r='6' fill='%230A0A0A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html"><i aria-hidden="true"></i><b>Қозғалыс</b></a>
+  <nav class="nav" aria-label="Негізгі мәзір">
+    <a href="index.html#experiments">← Барлық тәжірибелер</a>
+    <button class="pill sound-btn" data-sound type="button"></button>
+    <a class="pill solid" href="boyle.html">Келесі: Бойль–Мариотт</a>
+  </nav>
+</header>
+<main>
+<section class="lab-head">
+  <div>
+    <span class="eyebrow">01 / Механика</span>
+    <h1>Математикалық маятник</h1>
+  </div>
+  <p class="goal"><b>Мақсаты:</b> Маятниктің тербеліс периодының жіп ұзындығына тәуелділігін зерттеу және еркін түсу үдеуін g анықтау.</p>
+</section>
+
+<section class="lab">
+  <div class="stage">
+    <div class="stage-bar">
+      <span class="live off" id="live"><i></i><span id="liveTxt">Дайын</span></span>
+      <span id="stageHint">Шарды тышқанмен тартып жіберуге болады</span>
+    </div>
+    <canvas id="cv" role="img" aria-label="Штативке ілінген маятник, бұрыш өлшегіш және энергия бағандары"></canvas>
+    <div class="readouts" aria-live="polite">
+      <div class="ro"><span>Бұрыш α</span><b id="roAng">—</b></div>
+      <div class="ro"><span>Жылдамдық v</span><b id="roV">—</b></div>
+      <div class="ro"><span>Тербеліс n</span><b id="roN">—</b></div>
+      <div class="ro"><span>Секундомер t</span><b id="roT">—</b></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="card">
+      <h2>Қондырғы</h2>
+      <div class="ctl"><label for="L">Жіп ұзындығы L <output for="L"></output></label><input type="range" id="L" min="0.2" max="2.0" step="0.05" value="1.0"></div>
+      <div class="ctl"><label for="A">Бастапқы ауытқу α₀ <output for="A"></output></label><input type="range" id="A" min="3" max="60" step="1" value="10"></div>
+      <div class="ctl"><span style="font-size:14px;font-weight:700" id="planetL">Қай жерде тәжірибе жасаймыз?</span><div class="seg" id="planet" role="group" aria-labelledby="planetL"><button type="button" data-v="9.81" aria-pressed="true">Жер</button><button type="button" data-v="1.62" aria-pressed="false">Ай</button><button type="button" data-v="3.71" aria-pressed="false">Марс</button><button type="button" data-v="24.79" aria-pressed="false">Юпитер</button></div></div>
+      <label class="chk"><input type="checkbox" id="damp"> Ауаның кедергісі</label>
+      <label class="chk"><input type="checkbox" id="vec" checked> Жылдамдық векторын көрсету</label>
+      <label class="chk"><input type="checkbox" id="slow"> Баяу көрініс (×0,25)</label>
+    </div>
+    <div class="card">
+      <h2>Өлшеу</h2>
+      <div class="ctl"><span style="font-size:14px;font-weight:700" id="NL">Неше тербеліс санаймыз?</span><div class="seg" id="N" role="group" aria-labelledby="NL"><button type="button" data-v="5" aria-pressed="false">5</button><button type="button" data-v="10" aria-pressed="true">10</button><button type="button" data-v="20" aria-pressed="false">20</button></div></div>
+      <div class="btns"><button class="pill yel" type="button" id="btnGo">Жіберу</button><button class="pill " type="button" id="btnStop">Тоқтату</button></div>
+      <div class="btns"><button class="pill solid" type="button" id="btnMeasure">⏱ Өлшеу (секундомер)</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="data">
+  <div class="box">
+    <div class="box-head">
+      <h2>Өлшем кестесі</h2>
+      <div class="btns">
+        <button class="pill" type="button" id="btnCsv">CSV жүктеу</button>
+        <button class="pill" type="button" id="btnClear">Тазалау</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table id="tbl"><tbody></tbody></table></div>
+  </div>
+  <div class="box">
+    <div class="box-head"><h2>T² (L) тәуелділігі</h2></div>
+    <canvas class="chart" id="chart" role="img" aria-label="T² (L) тәуелділігі графигі"></canvas>
+    <div class="result" id="result" aria-live="polite">Кемінде 3 түрлі ұзындықпен өлшем жасаңыз — g мәні графиктен есептеледі.</div>
+  </div>
+</section>
+
+<section class="theory">
+  <details open>
+    <summary>Теория</summary>
+    <div class="in">
+      <p>Математикалық маятник — созылмайтын жеңіл жіпке ілінген кішкене ауыр дене. Кіші бұрыштарда (α &lt; 10°) оның тербелісі гармоникалық болады, ал периоды массаға да, амплитудаға да тәуелді емес:</p>
+      <span class="formula">T = 2π √(L / g)</span>
+      <p>Екі жағын квадраттасақ, T² = (4π²/g)·L — яғни T² пен L арасында тура пропорционал байланыс бар. Графиктің еңісі k = 4π²/g, сондықтан <b>g = 4π² / k</b>.</p>
+      <p>Үлкен бұрыштарда период сәл ұзарады — мұны α₀ = 60° қойып тексеріп көріңіз.</p>
+    </div>
+  </details>
+  <details open>
+    <summary>Жұмыс барысы</summary>
+    <div class="in">
+      <ol>
+        <li>Жіптің ұзындығын L = 0,5 м етіп орнатыңыз, бастапқы бұрыш 10°-тан аспасын.</li>
+        <li>«Жіберу» батырмасын басыңыз немесе шарды тышқанмен тартып жіберіңіз.</li>
+        <li>«Өлшеу» батырмасын басыңыз: секундомер шар тепе-теңдік күйден өткенде қосылып, 10 толық тербелістен кейін тоқтайды.</li>
+        <li>Ұзындықты 0,25 м қадаммен өзгертіп, кемінде 5 өлшем жасаңыз.</li>
+        <li>Графиктен g мәнін алып, кестелік мәнмен салыстырыңыз. Енді Айда немесе Марста қайталап көріңіз.</li>
+      </ol>
+    </div>
+  </details>
+</section>
+
+<nav class="nextprev" aria-label="Тәжірибелер арасында өту">
+  <a class="pill big" href="photo.html">← Фотоэффект</a>
+  <a class="pill yel big" href="boyle.html">Бойль–Мариотт →</a>
+</nav>
+</main>
+<footer class="foot">
+  <b>Қозғалыс</b>
+  <span>Онлайн физика зертханасы · 2026</span>
+  <a href="index.html">Басты бет</a>
+</footer>
+<script src="lab.js"></script>
+<script src="pendulum.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фотоэффект — ҚОЗҒАЛЫС</title>
+<meta name="description" content="Фотоэлектрондардың тежеуші кернеуінің жарық жиілігіне тәуелділігін зерттеу, Планк тұрақтысын және шығу жұмысын анықтау.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23E8FF47'/%3E%3Cpath d='M16 2v18' stroke='%230A0A0A' stroke-width='3'/%3E%3Ccircle cx='16' cy='22' r='6' fill='%230A0A0A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html"><i aria-hidden="true"></i><b>Қозғалыс</b></a>
+  <nav class="nav" aria-label="Негізгі мәзір">
+    <a href="index.html#experiments">← Барлық тәжірибелер</a>
+    <button class="pill sound-btn" data-sound type="button"></button>
+    <a class="pill solid" href="pendulum.html">Келесі: Маятник</a>
+  </nav>
+</header>
+<main>
+<section class="lab-head">
+  <div>
+    <span class="eyebrow">06 / Кванттық физика</span>
+    <h1>Фотоэффект</h1>
+  </div>
+  <p class="goal"><b>Мақсаты:</b> Фотоэлектрондардың тежеуші кернеуінің жарық жиілігіне тәуелділігін зерттеу, Планк тұрақтысын және шығу жұмысын анықтау.</p>
+</section>
+
+<section class="lab">
+  <div class="stage">
+    <div class="stage-bar">
+      <span class="live off" id="live"><i></i><span id="liveTxt">Дайын</span></span>
+      <span id="stageHint">Электрондар анодқа жеткенде санауыш шертеді</span>
+    </div>
+    <canvas id="cv" role="img" aria-label="Вакуумдық фотоэлемент: шамнан түскен жарық катодтан электрондарды ұшырып шығарады"></canvas>
+    <div class="readouts" aria-live="polite">
+      <div class="ro"><span>Толқын ұзындығы λ</span><b id="roL">—</b></div>
+      <div class="ro"><span>Жиілік ν</span><b id="roNu">—</b></div>
+      <div class="ro"><span>Кернеу U</span><b id="roU">—</b></div>
+      <div class="ro"><span>Фототок I</span><b id="roI">—</b></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="card">
+      <h2>Қондырғы</h2>
+      <div class="ctl"><label for="lam">Жарықтың толқын ұзындығы <output for="lam"></output></label><input type="range" id="lam" min="200" max="700" step="1" value="400"></div>
+      <div class="ctl"><label for="int">Жарық интенсивтігі <output for="int"></output></label><input type="range" id="int" min="0" max="100" step="1" value="60"></div>
+      <div class="ctl"><span style="font-size:14px;font-weight:700" id="metalL">Катод металы</span><div class="seg" id="metal" role="group" aria-labelledby="metalL"><button type="button" data-v="2.14" aria-pressed="false">Цезий</button><button type="button" data-v="2.36" aria-pressed="true">Натрий</button><button type="button" data-v="4.33" aria-pressed="false">Мырыш</button></div></div>
+      <div class="ctl"><label for="U">Анод кернеуі U <output for="U"></output></label><input type="range" id="U" min="-3" max="2" step="0.01" value="0"></div>
+    </div>
+    <div class="card">
+      <h2>Өлшеу</h2>
+      <div class="btns"><button class="pill solid" type="button" id="btnFind">Тежеуші кернеуді іздеу</button></div>
+      <div class="btns"><button class="pill yel" type="button" id="btnRec">✎ Тежеуші кернеуді жазу</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="data">
+  <div class="box">
+    <div class="box-head">
+      <h2>Өлшем кестесі</h2>
+      <div class="btns">
+        <button class="pill" type="button" id="btnCsv">CSV жүктеу</button>
+        <button class="pill" type="button" id="btnClear">Тазалау</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table id="tbl"><tbody></tbody></table></div>
+  </div>
+  <div class="box">
+    <div class="box-head"><h2>Uт (ν) тәуелділігі</h2></div>
+    <canvas class="chart" id="chart" role="img" aria-label="Uт (ν) тәуелділігі графигі"></canvas>
+    <div class="result" id="result" aria-live="polite">Әртүрлі түсте кемінде 3 тежеуші кернеу жазыңыз — h және A есептеледі.</div>
+  </div>
+</section>
+
+<section class="theory">
+  <details open>
+    <summary>Теория</summary>
+    <div class="in">
+      <p>Жарық — фотондар ағыны, әр фотонның энергиясы E = hν. Фотон металдан электронды ұшырып шығару үшін оның энергиясы шығу жұмысынан A үлкен болуы керек. Артық энергия электронның кинетикалық энергиясына айналады (Эйнштейн, 1905):</p>
+      <span class="formula">hν = A + eUт</span>
+      <p>Тежеуші кернеу Uт — ең шапшаң электрондарды да тоқтататын кері кернеу. Uт = (h/e)·ν − A/e, яғни Uт(ν) графигі түзу. Еңісі h/e, сондықтан <b>h = e · еңіс</b>, ал түзудің ν осімен қиылысуы фотоэффектінің қызыл шекарасын береді.</p>
+      <p>Жарық интенсивтігі тек токты өзгертеді, ал электрондардың энергиясын өзгертпейді — мұны өзіңіз тексеріңіз!</p>
+    </div>
+  </details>
+  <details open>
+    <summary>Жұмыс барысы</summary>
+    <div class="in">
+      <ol>
+        <li>Натрий катодын таңдап, λ = 400 нм қойыңыз. Фототок пайда болғанын байқаңыз.</li>
+        <li>Анод кернеуін теріс жаққа азайтып, ток нөлге айналатын сәтті табыңыз (немесе «Іздеу» батырмасын басыңыз).</li>
+        <li>«Тежеуші кернеуді жазу» батырмасын басыңыз.</li>
+        <li>λ мәнін 250–500 нм аралығында өзгертіп, кемінде 5 өлшем жасаңыз.</li>
+        <li>Графиктен Планк тұрақтысын және натрийдің шығу жұмысын табыңыз. Қызыл жарықта не болады?</li>
+      </ol>
+    </div>
+  </details>
+</section>
+
+<nav class="nextprev" aria-label="Тәжірибелер арасында өту">
+  <a class="pill big" href="lens.html">← Линза</a>
+  <a class="pill yel big" href="pendulum.html">Маятник →</a>
+</nav>
+</main>
+<footer class="foot">
+  <b>Қозғалыс</b>
+  <span>Онлайн физика зертханасы · 2026</span>
+  <a href="index.html">Басты бет</a>
+</footer>
+<script src="lab.js"></script>
+<script src="photo.js"></script>
+</body>
+</html>

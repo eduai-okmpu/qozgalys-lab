@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ҚОЗҒАЛЫС — онлайн физика зертханасы</title>
+<meta name="description" content="Интерактивті виртуалды физика зертханасы: маятник, Ом заңы, Бойль–Мариотт, серіппе, линза, фотоэффект. Анимация, дыбыс, өлшеу кестесі және график.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23E8FF47'/%3E%3Cpath d='M16 2v18' stroke='%230A0A0A' stroke-width='3'/%3E%3Ccircle cx='16' cy='22' r='6' fill='%230A0A0A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="index.html"><i aria-hidden="true"></i><b>Қозғалыс</b></a>
+  <nav class="nav" aria-label="Негізгі мәзір">
+    <a href="#experiments">Тәжірибелер</a>
+    <a href="#how">Қалай істейді</a>
+    <a href="#teachers">Мұғалімдерге</a>
+    <button class="pill sound-btn" data-sound type="button"></button>
+    <a class="pill solid" href="pendulum.html">Бастау</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="hero-text">
+    <span class="eyebrow">Онлайн зертхана / 7–11 сынып</span>
+    <h1>Физика <span>қозға&shy;лыста</span></h1>
+    <p>Формуланы жаттама — тәжірибе жаса. Маятникті тербет, токты қос, жарықты сындыр, газды қыс. Өлшемдер кестеге түседі, график өзі салынады.</p>
+    <div class="row-btns">
+      <a class="pill yel big" href="#experiments">Тәжірибені таңдау
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="pill big" href="#how">Қалай істейді</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <canvas id="heroPend" role="img" aria-label="Интерактивті маятник: шарды тышқанмен тартып жіберіңіз"></canvas>
+    <span class="hint">↔ шарды тартып жібер</span>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span>F = ma</span><span>●</span><span>U = IR</span><span>●</span><span>hν = A + mv²/2</span><span>●</span><span>pV = const</span><span>●</span><span>1/F = 1/d + 1/f</span><span>●</span><span>T = 2π√(L/g)</span><span>●</span><span>T = 2π√(m/k)</span><span>●</span>
+  <span>F = ma</span><span>●</span><span>U = IR</span><span>●</span><span>hν = A + mv²/2</span><span>●</span><span>pV = const</span><span>●</span><span>1/F = 1/d + 1/f</span><span>●</span><span>T = 2π√(L/g)</span><span>●</span><span>T = 2π√(m/k)</span><span>●</span>
+</div></div>
+
+<section class="sec white" id="experiments">
+  <div class="sec-head rv">
+    <h2 class="h2">Алты бөлім. Бір зертхана.</h2>
+    <span class="tag">[01 — 06]</span>
+  </div>
+  <div class="rows">
+    <a class="exp-row rv" href="pendulum.html">
+      <span class="n">01</span><span class="t">Математикалық маятник</span>
+      <span class="d">Механика · ұзындық пен периодтың байланысы, еркін түсу үдеуін g өлшеу. Жер, Ай, Марс.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+    <a class="exp-row rv" href="boyle.html">
+      <span class="n">02</span><span class="t">Бойль–Мариотт заңы</span>
+      <span class="d">Молекулалық физика · поршеньді қысып, газдың қысымы мен көлемін өлшеу. Молекулалар көз алдыңда.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+    <a class="exp-row rv" href="ohm.html">
+      <span class="n">03</span><span class="t">Тізбек бөлігі үшін Ом заңы</span>
+      <span class="d">Электр · кернеуді өзгертіп, амперметр мен вольтметрден оқу. Шам жанады, сақтандырғыш күйеді.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+    <a class="exp-row rv" href="spring.html">
+      <span class="n">04</span><span class="t">Серіппелі маятник</span>
+      <span class="d">Тербелістер · жүкті ілу, серіппенің қатаңдығын k табу, өшетін тербелістер.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+    <a class="exp-row rv" href="lens.html">
+      <span class="n">05</span><span class="t">Жинағыш линза</span>
+      <span class="d">Оптика · шам мен экранды жылжытып, анық кескінді табу және линзаның фокус аралығын өлшеу.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+    <a class="exp-row rv" href="photo.html">
+      <span class="n">06</span><span class="t">Фотоэффект</span>
+      <span class="d">Кванттық физика · жарықтың түсін өзгертіп, тежеуші кернеуді өлшеу және Планк тұрақтысын h табу.</span>
+      <span class="go"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<section class="sec dark" id="how">
+  <h2 class="h2 rv" style="padding-bottom:48px">Төрт қадам — <span>бір нәтиже</span></h2>
+  <div class="steps">
+    <div class="step rv"><span class="num">1</span><span class="st">Таңда</span><p>Тақырыпқа сай тәжірибені аш. Мақсаты мен теориясы сол бетте.</p></div>
+    <div class="step rv"><span class="num">2</span><span class="st">Бапта</span><p>Ұзындықты, массаны, кернеуді, көлемді немесе жарықтың түсін жүгірткімен өзгерт.</p></div>
+    <div class="step rv"><span class="num">3</span><span class="st">Өлше</span><p>«Жазу» батырмасы құралдардың көрсеткішін кестеге түсіреді. Нақты зертханадағыдай аздаған қателік бар.</p></div>
+    <div class="step rv"><span class="num">4</span><span class="st">Қорытынды жаса</span><p>График өзі салынады, шама есептеледі. Кестені CSV файл етіп жүктеп, есеп беруге қос.</p></div>
+  </div>
+</section>
+
+<section class="sec yellow cta" id="teachers">
+  <div class="rv" style="flex:1 1 600px;min-width:0;display:flex;flex-direction:column;gap:20px">
+    <span class="eyebrow" style="color:#0A0A0A">Мұғалімдерге</span>
+    <h2 class="h2">Сабақты зертханаға көшір</h2>
+    <p>Тіркелу де, орнату да керек емес — сілтемені оқушыларға жіберсеңіз жеткілікті. Проекторда көрсетуге, үйге тапсырма беруге ыңғайлы.</p>
+  </div>
+  <a class="pill ink big rv" href="pendulum.html">Бірінші тәжірибе
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+  </a>
+</section>
+</main>
+
+<footer class="foot">
+  <b>Қозғалыс</b>
+  <span>Онлайн физика зертханасы · 2026</span>
+  <a href="#top">Жоғары ↑</a>
+</footer>
+
+<script src="lab.js"></script>
+<script>
+/* Басты беттегі интерактивті маятник */
+(function () {
+  const cv = document.getElementById('heroPend');
+  const c = Q.canvas(cv, 600, 600);
+  const PX = 300, PY = 70, L = 330, g = 9.81, Lm = 1.0;
+  let th = 0.5, w = 0, drag = false, lastSide = Math.sign(th), orbit = 0;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pos() { return { x: PX + L * Math.sin(th), y: PY + L * Math.cos(th) }; }
+  cv.addEventListener('pointerdown', (e) => {
+    const p = c.toLocal(e), b = pos();
+    if (Math.hypot(p.x - b.x, p.y - b.y) < 70) { drag = true; cv.setPointerCapture(e.pointerId); cv.style.cursor = 'grabbing'; Q.audio.click(); }
+  });
+  cv.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const p = c.toLocal(e);
+    th = Q.clamp(Math.atan2(p.x - PX, Math.max(p.y - PY, 10)), -1.2, 1.2); w = 0;
+  });
+  const up = () => { if (drag) { drag = false; cv.style.cursor = 'grab'; Q.audio.pop(); } };
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min((now - last) / 1000, 0.033); last = now;
+    if (!drag && !reduce) {
+      for (let i = 0; i < 8; i++) { const h = dt / 8; w += (-(g / Lm) * Math.sin(th) - 0.05 * w) * h; th += w * h; }
+      const s = Math.sign(th);
+      if (s !== lastSide && s !== 0) { Math.abs(w) > 0.4 && Q.audio.tick(); lastSide = s; }
+      if (Math.abs(th) < 0.02 && Math.abs(w) < 0.05) { th = 0.5; w = 0; }
+    }
+    orbit += dt;
+    // draw
+    c.clearRect(0, 0, 600, 600);
+    c.fillStyle = '#E8FF47'; c.beginPath(); c.arc(300, 300, 290, 0, Math.PI * 2); c.fill();
+    c.strokeStyle = '#0A0A0A'; c.lineWidth = 2; c.setLineDash([3, 10]);
+    c.beginPath(); c.arc(300, 300, 225, 0, Math.PI * 2); c.stroke(); c.setLineDash([]);
+    c.fillStyle = '#1B2BFF'; c.beginPath(); c.arc(300 + 225 * Math.sin(orbit * 0.45), 300 - 225 * Math.cos(orbit * 0.45), 16, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#0A0A0A'; c.beginPath(); c.arc(300 - 225 * Math.cos(orbit * 0.29), 300 + 225 * Math.sin(orbit * 0.29), 9, 0, Math.PI * 2); c.fill();
+    // arc of amplitude
+    c.strokeStyle = '#0A0A0A'; c.lineWidth = 2.5;
+    c.beginPath(); c.arc(PX, PY, L + 10, Math.PI / 2 - 0.45, Math.PI / 2 + 0.45); c.stroke();
+    c.fillStyle = '#0A0A0A'; c.fillRect(210, 56, 180, 14);
+    const b = pos();
+    c.lineWidth = 5; c.beginPath(); c.moveTo(PX, PY); c.lineTo(b.x, b.y); c.stroke();
+    c.beginPath(); c.arc(b.x, b.y, 46, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#E8FF47'; c.beginPath(); c.arc(b.x - 14, b.y - 14, 9, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#1B2BFF'; c.strokeStyle = '#0A0A0A'; c.lineWidth = 4; c.beginPath(); c.arc(PX, PY, 9, 0, Math.PI * 2); c.fill(); c.stroke();
+    Q.text(c, 'T = 2π√(L/g)', 300, 500, { mono: true, size: 26, align: 'center' });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

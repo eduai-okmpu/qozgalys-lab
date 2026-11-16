@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бойль–Мариотт заңы — ҚОЗҒАЛЫС</title>
+<meta name="description" content="Тұрақты температурада газ қысымының оның көлеміне тәуелділігін тексеру.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23E8FF47'/%3E%3Cpath d='M16 2v18' stroke='%230A0A0A' stroke-width='3'/%3E%3Ccircle cx='16' cy='22' r='6' fill='%230A0A0A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html"><i aria-hidden="true"></i><b>Қозғалыс</b></a>
+  <nav class="nav" aria-label="Негізгі мәзір">
+    <a href="index.html#experiments">← Барлық тәжірибелер</a>
+    <button class="pill sound-btn" data-sound type="button"></button>
+    <a class="pill solid" href="ohm.html">Келесі: Ом заңы</a>
+  </nav>
+</header>
+<main>
+<section class="lab-head">
+  <div>
+    <span class="eyebrow">02 / Молекулалық физика</span>
+    <h1>Бойль–Мариотт заңы</h1>
+  </div>
+  <p class="goal"><b>Мақсаты:</b> Тұрақты температурада газ қысымының оның көлеміне тәуелділігін тексеру.</p>
+</section>
+
+<section class="lab">
+  <div class="stage">
+    <div class="stage-bar">
+      <span class="live off" id="live"><i></i><span id="liveTxt">Дайын</span></span>
+      <span id="stageHint">Поршень тұтқасын тышқанмен жоғары-төмен жылжытыңыз</span>
+    </div>
+    <canvas id="cv" role="img" aria-label="Поршені бар цилиндр, ішінде қозғалып жүрген газ молекулалары, манометр"></canvas>
+    <div class="readouts" aria-live="polite">
+      <div class="ro"><span>Көлем V</span><b id="roV">—</b></div>
+      <div class="ro"><span>Қысым p</span><b id="roP">—</b></div>
+      <div class="ro"><span>Температура t</span><b id="roT">—</b></div>
+      <div class="ro"><span>Соқтығысу / с</span><b id="roHits">—</b></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="card">
+      <h2>Қондырғы</h2>
+      <div class="ctl"><label for="V">Газ көлемі V <output for="V"></output></label><input type="range" id="V" min="20" max="100" step="1" value="100"></div>
+      <div class="ctl"><span style="font-size:14px;font-weight:700" id="tempL">Термостат температурасы</span><div class="seg" id="temp" role="group" aria-labelledby="tempL"><button type="button" data-v="273" aria-pressed="false">0 °C</button><button type="button" data-v="293" aria-pressed="true">20 °C</button><button type="button" data-v="353" aria-pressed="false">80 °C</button></div></div>
+      <label class="chk"><input type="checkbox" id="trail" checked> Бір молекуланың ізін көрсету</label>
+    </div>
+    <div class="card">
+      <h2>Өлшеу</h2>
+      <div class="btns"><button class="pill yel" type="button" id="btnRec">✎ Жазу</button></div>
+      <div class="btns"><button class="pill solid" type="button" id="btnAuto">Автоматты сериясы (8 нүкте)</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="data">
+  <div class="box">
+    <div class="box-head">
+      <h2>Өлшем кестесі</h2>
+      <div class="btns">
+        <button class="pill" type="button" id="btnCsv">CSV жүктеу</button>
+        <button class="pill" type="button" id="btnClear">Тазалау</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table id="tbl"><tbody></tbody></table></div>
+  </div>
+  <div class="box">
+    <div class="box-head"><h2>Қысым мен көлем</h2><div class="seg" id="mode" role="group" aria-label="Графиктің түрі" style="--x:0"><button type="button" data-v="pv" aria-pressed="true" style="border-color:#0A0A0A;color:#0A0A0A">p(V)</button><button type="button" data-v="p1v" aria-pressed="false" style="border-color:#0A0A0A;color:#0A0A0A">p(1/V)</button></div></div>
+    <canvas class="chart" id="chart" role="img" aria-label="Қысым мен көлем графигі"></canvas>
+    <div class="result" id="result" aria-live="polite">Әртүрлі көлемде кемінде 3 өлшем жазыңыз — pV көбейтіндісі тексеріледі.</div>
+  </div>
+</section>
+
+<section class="theory">
+  <details open>
+    <summary>Теория</summary>
+    <div class="in">
+      <p>Газ молекулалары үздіксіз ретсіз қозғалып, ыдыс қабырғаларына соқтығысады. Осы соқтығысулардың орташа күші газдың қысымын туғызады. Көлемді азайтсақ, молекулалар қабырғаға жиірек соғылады да, қысым артады.</p>
+      <span class="formula">p·V = const   (T = const, m = const)</span>
+      <p>Бұл — изотермалық процесс. p(V) графигі гипербола (изотерма), ал p(1/V) графигі координат басынан өтетін түзу болады. Температура жоғары болса, изотерма жоғарырақ орналасады.</p>
+    </div>
+  </details>
+  <details open>
+    <summary>Жұмыс барысы</summary>
+    <div class="in">
+      <ol>
+        <li>Термостатты 20 °C етіп қойыңыз. Бастапқы көлем — 100 мл.</li>
+        <li>Поршеньді біртіндеп қысып, әр 10 мл сайын «Жазу» батырмасын басыңыз.</li>
+        <li>Кестедегі pV бағанына назар аударыңыз — ол қаншалықты тұрақты?</li>
+        <li>Графикті p(1/V) түріне ауыстырып, түзу шыққанын тексеріңіз.</li>
+        <li>Температураны 80 °C етіп, жаңа сериясын жазыңыз. Изотермалар қалай орналасты?</li>
+      </ol>
+    </div>
+  </details>
+</section>
+
+<nav class="nextprev" aria-label="Тәжірибелер арасында өту">
+  <a class="pill big" href="pendulum.html">← Маятник</a>
+  <a class="pill yel big" href="ohm.html">Ом заңы →</a>
+</nav>
+</main>
+<footer class="foot">
+  <b>Қозғалыс</b>
+  <span>Онлайн физика зертханасы · 2026</span>
+  <a href="index.html">Басты бет</a>
+</footer>
+<script src="lab.js"></script>
+<script src="boyle.js"></script>
+</body>
+</html>
